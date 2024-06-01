@@ -2,7 +2,7 @@ import './globals.css';
 
 import Link from 'next/link';
 import { Analytics } from '@vercel/analytics/react';
-import { Logo, SettingsIcon, UsersIcon, VercelLogo } from '@/components/icons';
+import { Logo, SettingsIcon, UsersIcon, VercelLogo, AccountIcon, TransactionIcon } from '@/components/icons';
 import { User } from './user';
 import { NavItem } from './nav-item';
 
@@ -38,13 +38,29 @@ export default function RootLayout({
                     <UsersIcon className="h-4 w-4" />
                     Users
                   </NavItem>
+                  <NavItem href="/transactions">
+                    <TransactionIcon className="h-4 w-4" />
+                    Transactions
+                  </NavItem>
+                  <NavItem href="/bills">
+                    <SettingsIcon className="h-4 w-4" />
+                    Bills
+                  </NavItem>
+                  <NavItem href="/income">
+                    <SettingsIcon className="h-4 w-4" />
+                    Income
+                  </NavItem>
+                  <NavItem href="/budget">
+                    <SettingsIcon className="h-4 w-4" />
+                    Budget
+                  </NavItem>
+                  <NavItem href="/accounts">
+                    <AccountIcon className="h-4 w-4" />
+                    Accounts
+                  </NavItem>
                   <NavItem href="/settings">
                     <SettingsIcon className="h-4 w-4" />
                     Settings
-                  </NavItem>
-                  <NavItem href="https://vercel.com/templates/next.js/admin-dashboard-tailwind-postgres-react-nextjs">
-                    <VercelLogo className="h-4 w-4" />
-                    Deploy
                   </NavItem>
                 </nav>
               </div>

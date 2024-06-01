@@ -69,11 +69,10 @@ function UserRow({ user }: { user: SelectUser }) {
       <TableCell>{user.username}</TableCell>
       <TableCell>
         <Button
-          className="w-full"
+          className="w-full hover:bg-red-600 hover:text-white"
           size="sm"
           variant="outline"
           formAction={deleteUserWithId}
-          disabled
         >
           Delete
         </Button>
