@@ -2,7 +2,7 @@ import './globals.css';
 
 import Link from 'next/link';
 import { Analytics } from '@vercel/analytics/react';
-import { Logo, SettingsIcon, UsersIcon, VercelLogo, AccountIcon, TransactionIcon } from '@/components/icons';
+import { Logo, SettingsIcon, UsersIcon, VercelLogo, AccountIcon, TransactionIcon, BillIcon, IncomeIcon, BudgetIcon } from '@/components/icons';
 import { User } from './user';
 import { NavItem } from './nav-item';
 
@@ -34,24 +34,20 @@ export default function RootLayout({
               </div>
               <div className="flex-1 overflow-auto py-2">
                 <nav className="grid items-start px-4 text-sm font-medium">
-                  <NavItem href="/">
-                    <UsersIcon className="h-4 w-4" />
-                    Users
-                  </NavItem>
                   <NavItem href="/transactions">
                     <TransactionIcon className="h-4 w-4" />
                     Transactions
                   </NavItem>
                   <NavItem href="/bills">
-                    <SettingsIcon className="h-4 w-4" />
+                    <BillIcon className="h-4 w-4" />
                     Bills
                   </NavItem>
                   <NavItem href="/income">
-                    <SettingsIcon className="h-4 w-4" />
+                    <IncomeIcon className="h-4 w-4" />
                     Income
                   </NavItem>
                   <NavItem href="/budget">
-                    <SettingsIcon className="h-4 w-4" />
+                    <BudgetIcon className="h-4 w-4" />
                     Budget
                   </NavItem>
                   <NavItem href="/accounts">

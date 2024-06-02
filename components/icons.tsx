@@ -60,6 +60,24 @@ export function SearchIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
+export function BillIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M14 8H8"/><path d="M16 12H8"/><path d="M13 16H8"/></svg>
+  )
+}
+
+export function IncomeIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17"/><path d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"/><path d="m2 16 6 6"/><circle cx="16" cy="9" r="2.9"/><circle cx="6" cy="5" r="3"/></svg>
+  )
+}
+
+export function BudgetIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+  )
+}
+
 export function AccountIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
@@ -74,16 +92,8 @@ export function AccountIcon(props: React.SVGProps<SVGSVGElement>) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <rect width="18" height="18" x="3" y="3" rx="2" />
-      <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
-      <path d="m7.9 7.9 2.7 2.7" />
-      <circle cx="16.5" cy="7.5" r=".5" fill="currentColor" />
-      <path d="m13.4 10.6 2.7-2.7" />
-      <circle cx="7.5" cy="16.5" r=".5" fill="currentColor" />
-      <path d="m7.9 16.1 2.7-2.7" />
-      <circle cx="16.5" cy="16.5" r=".5" fill="currentColor" />
-      <path d="m13.4 13.4 2.7 2.7" />
-      <circle cx="12" cy="12" r="2" />
+      <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" />
+      <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" />
     </svg>
   );
 }
