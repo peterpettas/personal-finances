@@ -3,13 +3,25 @@ import { fetchUpApi } from '../../../lib/api';
 
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
+  const accountId = searchParams.get('accountId');
   const start = searchParams.get('start');
   const end = searchParams.get('end');
+  const pageAfter = searchParams.get('pageAfter');
+  const pageBefore = searchParams.get('pageBefore');
+
+  const accountCondition = accountId !== '' ? `accounts/${accountId}/transactions` : 'transactions';
   
+  let url = `${accountCondition}?page[size]=100&filter[since]=${start}&filter[until]=${end}`;
+
   try {
-    const data = await fetchUpApi(
-      `accounts/0c91829f-5552-4e9e-beaf-7550382f566b/transactions?page[size]=50&filter[since]=${start}&filter[until]=${end}`
-    );
+
+    if (pageAfter) {
+      url += `&page[after]=${pageAfter}`;
+    }
+    if (pageBefore) {
+      url += `&page[before]=${pageBefore}`;
+    }
+	  const data = await fetchUpApi(url);
     const transactions = data.data;
 
     // Filter out unwanted transactions
@@ -20,7 +32,10 @@ export async function GET(req) {
 		!transaction.attributes.description.startsWith('Transfer')
     );
 
-    return NextResponse.json({ transactions: filteredTransactions });
+    return NextResponse.json({ 
+      transactions: filteredTransactions,
+      links: data.links
+    });
   } catch (error) {
     return NextResponse.json(
       { error: 'Failed to fetch transactions' },

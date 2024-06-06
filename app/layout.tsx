@@ -5,6 +5,8 @@ import { Analytics } from '@vercel/analytics/react';
 import { Logo, SettingsIcon, UsersIcon, VercelLogo, AccountIcon, TransactionIcon, BillIcon, IncomeIcon, BudgetIcon } from '@/components/icons';
 import { User } from './user';
 import { NavItem } from './nav-item';
+import { auth, signIn } from '@/lib/auth';
+import { Button } from '@/components/ui/button';
 
 export const metadata = {
   title: 'Next.js App Router + NextAuth + Tailwind CSS',
@@ -12,11 +14,33 @@ export const metadata = {
     'A user admin dashboard configured with Next.js, Postgres, NextAuth, Tailwind CSS, TypeScript, and Prettier.'
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children
 }: {
   children: React.ReactNode;
 }) {
+
+  // const session = await auth();
+  // const user = session?.user;
+
+  // if (!user) {
+  //   return (
+  //     <html lang="en" className="h-full bg-gray-50">
+  //       <body>
+  //         <form
+  //           action={async () => {
+  //             'use server';
+  //             await signIn('github');
+  //           }}
+  //         >
+  //           <Button variant="outline">Sign In</Button>
+  //         </form>
+  //       </body>
+  //     </html>
+  //   );
+  // }
+
+
   return (
     <html lang="en" className="h-full bg-gray-50">
       <body>
