@@ -49,11 +49,11 @@ export default async function RootLayout({
             <div className="flex h-full max-h-screen flex-col gap-2">
               <div className="flex h-[60px] items-center border-b px-5">
                 <Link
-                  className="flex items-center gap-2 font-semibold"
+                  className="flex items-center gap-2 font-semibold text-emerald-500"
                   href="/"
                 >
                   <Logo />
-                  <span className="">ACME</span>
+                  <span className="">P&A | PF</span>
                 </Link>
               </div>
               <div className="flex-1 overflow-auto py-2">

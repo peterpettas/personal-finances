@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Transaction from '../../components/Transaction';
 import { fetchUpApi } from '../../lib/api';
-import { columns, TransactionType } from './columns';
+import { columns, TransactionType, APITransactionType } from './columns';
 import {
   Table,
   TableBody,
@@ -110,7 +110,18 @@ const TransactionsPage = () => {
       return;
     }
     const data = await response.json();
-    setTransactions(data.transactions);
+    const mappedData: TransactionType[] = data.transactions.map((transaction: APITransactionType) => ({
+        id: transaction.id,
+        description: transaction.attributes.description,
+        message: transaction.attributes.message,
+        amount: transaction.attributes.amount.value,
+        createdAt: transaction.attributes.createdAt,
+        category:
+          transaction.relationships.category?.data?.id ?? 'Uncategorized'
+      })
+    );
+    console.log('Fetched transactions:', mappedData);
+    setTransactions(mappedData);
     setPaginationLinks(data.links);
     if (!totalPages && data.meta?.totalCount) {
       setTotalPages(Math.ceil(data.meta.totalCount / 100));
@@ -223,13 +234,12 @@ const TransactionsPage = () => {
             <Input
               placeholder="Filter transactions..."
               value={
-                (table
-                  .getColumn('attributes.description')
-                  ?.getFilterValue() as string) ?? ''
+                (table.getColumn('description')?.getFilterValue() as string) ??
+                ''
               }
               onChange={(event) =>
                 table
-                  .getColumn('attributes.description')
+                  .getColumn('description')
                   ?.setFilterValue(event.target.value)
               }
               className="max-w-sm"
