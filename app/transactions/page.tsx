@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Transaction from '../../components/Transaction';
 import { fetchUpApi } from '../../lib/api';
+import { columns, TransactionType } from './columns';
 import {
   Table,
   TableBody,
@@ -48,28 +49,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 
-type TransactionType = {
-  id: string;
-  attributes: {
-    description: string;
-    message: string;
-    amount: {
-      value: string;
-    };
-    createdAt: string;
-  };
-  relationships: {
-    category: {
-      data: {
-        id: string;
-      }
-      links: {
-        self: string;
-      } | null;
-    } | null;
-  };
-};
-
 type AccountType = {
   id: string;
   attributes: {
@@ -79,48 +58,6 @@ type AccountType = {
     };
   };
 };
-
-export const columns: ColumnDef<TransactionType>[] = [
-  {
-    header: 'Description',
-    accessorKey: 'attributes.description'
-  },
-  {
-    header: 'Message',
-    accessorKey: 'attributes.message'
-  },
-  {
-    header: 'Date',
-    accessorKey: 'attributes.createdAt',
-    cell: ({ row }) => {
-      const date = new Date(row.original.attributes.createdAt);
-      return date.toLocaleDateString('en-GB');
-    }
-  },
-  {
-    header: 'Category',
-    accessorKey: 'relationships.category.data.id'
-  },
-  {
-    header: 'Amount',
-    accessorKey: 'attributes.amount.value',
-    cell: ({ row }) => {
-      const amountValue = row.original.attributes.amount.value;
-      const amount = parseFloat(amountValue);
-      const formatted = new Intl.NumberFormat('en-AU', {
-        style: 'currency',
-        currency: 'AUD'
-      }).format(amount);
-
-      return amount < 0 ? (
-        <span className="text-red-500">{formatted}</span>
-      ) : (
-        <span className="text-green-500">{formatted}</span>
-      );
-    }
-  }
-];
-
 
 const getStartAndEndOfMonth = (date: Date) => {
   const start = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -155,7 +92,7 @@ const TransactionsPage = () => {
     setAccount(data.accounts);
   }
 
-  const fetchTransactions = async (month: Date, accountId: string, pageAfter = null, pageBefore = null ) => {
+  const fetchTransactions = async (month: Date, accountId: string, pageAfter?: string | null, pageBefore?: string | null ) => {
     setLoading(true);
     const { start, end } = getStartAndEndOfMonth(month);
     const account = accountId;
