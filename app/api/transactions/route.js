@@ -38,7 +38,9 @@ export async function GET(req) {
     });
   } catch (error) {
     return NextResponse.json(
-      { error: 'Failed to fetch transactions' },
+      // debug
+      { error: error.message },
+      // { error: 'Failed to fetch transactions' },
       { status: 500 }
     );
   }
