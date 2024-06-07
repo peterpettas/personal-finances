@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import Transaction from '../../components/Transaction';
 import { fetchUpApi } from '../../lib/api';
-import { columns, TransactionType, APITransactionType } from './columns';
+import { columns, TransactionType, APITransactionType } from '../transactions/columns';
 import {
   Table,
   TableBody,
@@ -35,7 +35,7 @@ import {
   getSortedRowModel,
   useReactTable
 } from '@tanstack/react-table';
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -64,7 +64,7 @@ const getStartAndEndOfMonth = (date: Date) => {
   const end = new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59);
   return {
     start: start.toISOString(),
-    end: end.toISOString(),
+    end: end.toISOString()
   };
 };
 
@@ -74,21 +74,16 @@ const TransactionsPage = () => {
   const [account, setAccount] = useState<AccountType[]>([]);
   const [selectedAccount, setSelectedAccount] = useState('');
   const [loading, setLoading] = useState(true);
-  const [paginationLinks, setPaginationLinks] = useState({ next: null, prev: null });
+  const [paginationLinks, setPaginationLinks] = useState({
+    next: null,
+    prev: null
+  });
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
-
-  const setPaginationState = (updater: any) => {
-    const newPagination =
-      typeof updater === 'function'
-        ? updater({ pageIndex: currentPage - 1, pageSize: 10 })
-        : updater;
-    setCurrentPage(newPagination.pageIndex + 1);
-  };
 
   const fetchAccountId = async () => {
     const response = await fetch('/api/accounts');
@@ -98,11 +93,15 @@ const TransactionsPage = () => {
     }
     const data = await response.json();
     setAccount(data.accounts);
-  }
+  };
 
-  const fetchTransactions = async (month: Date, accountId: string, pageAfter?: string | null, pageBefore?: string | null ) => {
+  const fetchTransactions = async (
+    month: Date,
+    accountId: string,
+    pageAfter?: string | null,
+    pageBefore?: string | null
+  ) => {
     setLoading(true);
-    setTransactions([]);
     const { start, end } = getStartAndEndOfMonth(month);
     const account = accountId;
     let url = `/api/transactions?accountId=${account}&start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`;
@@ -119,7 +118,12 @@ const TransactionsPage = () => {
       return;
     }
     const data = await response.json();
-    const mappedData: TransactionType[] = data.transactions.map((transaction: APITransactionType) => ({
+	const incomeTransactions = data.transactions.filter(transaction => {
+		const description = transaction.attributes.description;
+		return description === 'BAT Trims' || description === 'Country Road Group';
+	});
+    const mappedData: TransactionType[] = incomeTransactions.map(
+      (transaction: APITransactionType) => ({
         id: transaction.id,
         description: transaction.attributes.description,
         message: transaction.attributes.message,
@@ -138,33 +142,35 @@ const TransactionsPage = () => {
     setLoading(false);
   };
 
-   useEffect(() => {
-     fetchAccountId();
-     console.log(account);
-   }, []);
+  useEffect(() => {
+    fetchAccountId();
+    console.log(account);
+  }, []);
 
   useEffect(() => {
-    setTransactions([]);
     fetchTransactions(selectedMonth, selectedAccount);
     setCurrentPage(1);
   }, [selectedMonth, selectedAccount]);
 
   const handlePreviousMonth = () => {
-    setSelectedMonth(new Date(selectedMonth.setMonth(selectedMonth.getMonth() - 1)));
-  }
+    setSelectedMonth(
+      new Date(selectedMonth.setMonth(selectedMonth.getMonth() - 1))
+    );
+  };
 
   const handleNextMonth = () => {
-    setSelectedMonth(new Date(selectedMonth.setMonth(selectedMonth.getMonth() + 1)));
-  }
+    setSelectedMonth(
+      new Date(selectedMonth.setMonth(selectedMonth.getMonth() + 1))
+    );
+  };
 
   const handleNextPage = () => {
     if (paginationLinks.next) {
       const pageAfter = new URL(paginationLinks.next).searchParams.get(
         'page[after]'
       );
-      setTransactions([]);
       fetchTransactions(selectedMonth, selectedAccount, pageAfter, null);
-      setCurrentPage((prevPage) => prevPage + 1);
+      setCurrentPage(currentPage + 1);
     }
   };
 
@@ -173,19 +179,14 @@ const TransactionsPage = () => {
       const pageBefore = new URL(paginationLinks.prev).searchParams.get(
         'page[before]'
       );
-      setTransactions([]);
       fetchTransactions(selectedMonth, selectedAccount, null, pageBefore);
-      setCurrentPage((prevPage) => prevPage - 1);
+      setCurrentPage(currentPage - 1);
     }
   };
 
   const table = useReactTable({
     data: transactions,
     columns,
-    pageCount: totalPages,
-    onPaginationChange: (updater) => {
-      setPaginationState(updater);
-    },
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -195,7 +196,6 @@ const TransactionsPage = () => {
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     state: {
-      pagination: { pageIndex: currentPage - 1, pageSize: 100 },
       sorting,
       columnFilters,
       columnVisibility,
@@ -206,7 +206,7 @@ const TransactionsPage = () => {
   return (
     <div className="p-6 space-y-4">
       <div className="flex gap-5">
-        <h1 className="text-2xl font-bold">Transactions</h1>
+        <h1 className="text-2xl font-bold">Income</h1>
         <Select onValueChange={(value: any) => setSelectedAccount(value)}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select Account" />
@@ -347,16 +347,16 @@ const TransactionsPage = () => {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={handlePreviousPage}
-                disabled={!paginationLinks.prev}
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
               >
                 Previous
               </Button>
               <Button
                 variant="outline"
                 size="sm"
-                onClick={handleNextPage}
-                disabled={!paginationLinks.next}
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
               >
                 Next
               </Button>

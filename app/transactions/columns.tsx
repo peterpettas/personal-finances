@@ -31,6 +31,9 @@ export type TransactionType = {
   amount: string;
   createdAt: string;
   category: string;
+  links: {
+    self: string;
+  } | null;
 };
 
 export type BillType = {

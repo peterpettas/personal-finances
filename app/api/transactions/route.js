@@ -10,8 +10,9 @@ export async function GET(req) {
   const pageBefore = searchParams.get('pageBefore');
 
   const accountCondition = accountId !== '' ? `accounts/${accountId}/transactions` : 'transactions';
+  const startAndEnd = start && end ? `&filter[since]=${start}&filter[until]=${end}` : '';
   
-  let url = `${accountCondition}?page[size]=100&filter[since]=${start}&filter[until]=${end}`;
+  let url = `${accountCondition}?page[size]=100${startAndEnd}`;
 
   try {
 
@@ -21,6 +22,8 @@ export async function GET(req) {
     if (pageBefore) {
       url += `&page[before]=${pageBefore}`;
     }
+
+    console.log('url', url);
 	  const data = await fetchUpApi(url);
     const transactions = data.data;
 

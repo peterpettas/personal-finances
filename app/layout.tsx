@@ -9,9 +9,9 @@ import { auth, signIn } from '@/lib/auth';
 import { Button } from '@/components/ui/button';
 
 export const metadata = {
-  title: 'Next.js App Router + NextAuth + Tailwind CSS',
+  title: 'Peter & Ana | Personal Finances',
   description:
-    'A user admin dashboard configured with Next.js, Postgres, NextAuth, Tailwind CSS, TypeScript, and Prettier.'
+    'Peter & Ana Personal Finances is a personal finance app that helps you manage your money, budget, and expenses.',
 };
 
 export default async function RootLayout({
