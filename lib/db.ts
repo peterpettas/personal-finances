@@ -51,7 +51,7 @@ export async function createBill(bill: Omit<SelectBill, 'id'>): Promise<SelectBi
 }
 
 export async function updateBillById(id: number, bill: Partial<Omit<SelectBill, 'id'>>): Promise<SelectBill> {
-  const [updatedBill] = await db.update(bills).set({ ...bill, updatedat: new Date() }).where(eq(bills.id, id)).returning().execute();
+  const [updatedBill] = await db.update(bills).set({ ...bill, updatedat: new Date().toISOString() }).where(eq(bills.id, id)).returning().execute();
   return updatedBill;
 }
 
