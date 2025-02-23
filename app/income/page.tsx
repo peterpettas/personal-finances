@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Transaction from '../../components/Transaction';
 import { fetchUpApi } from '../../lib/api';
-import { columns, TransactionType, APITransactionType } from '../transactions/columns';
+import { columns, TransactionType, APITransactionType } from '../transactions/[accountId]/columns';
 import {
   Table,
   TableBody,
@@ -144,7 +144,6 @@ const TransactionsPage = () => {
 
   useEffect(() => {
     fetchAccountId();
-    console.log(account);
   }, []);
 
   useEffect(() => {

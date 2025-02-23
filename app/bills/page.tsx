@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { billColumns, BillType } from '../transactions/columns';
+import { billColumns, BillType } from '../transactions/[accountId]/columns';
 import {
   Table,
   TableBody,

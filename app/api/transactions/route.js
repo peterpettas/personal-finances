@@ -10,17 +10,17 @@ export async function GET(req) {
   const pageBefore = searchParams.get('pageBefore');
 
   const accountCondition = accountId !== '' ? `accounts/${accountId}/transactions` : 'transactions';
-  const startAndEnd = start && end ? `&filter[since]=${start}&filter[until]=${end}` : '';
+  const startAndEnd = start && end ? `&filter[since]=${encodeURIComponent(start)}&filter[until]=${encodeURIComponent(end)}` : '';
   
   let url = `${accountCondition}?page[size]=100${startAndEnd}`;
 
   try {
 
     if (pageAfter) {
-      url += `&page[after]=${pageAfter}`;
+      url += `&page[after]=${encodeURIComponent(pageAfter)}`;
     }
     if (pageBefore) {
-      url += `&page[before]=${pageBefore}`;
+      url += `&page[before]=${encodeURIComponent(pageBefore)}`;
     }
 
     console.log('url', url);
