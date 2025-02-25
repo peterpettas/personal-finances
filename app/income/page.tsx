@@ -118,10 +118,10 @@ const TransactionsPage = () => {
       return;
     }
     const data = await response.json();
-	const incomeTransactions = data.transactions.filter(transaction => {
-		const description = transaction.attributes.description;
-		return description === 'BAT Trims' || description === 'Country Road Group';
-	});
+  const incomeTransactions = data.transactions.filter((transaction: APITransactionType) => {
+    const description = transaction.attributes.description;
+    return description === 'BAT Trims' || description === 'Country Road Group';
+  });
     const mappedData: TransactionType[] = incomeTransactions.map(
       (transaction: APITransactionType) => ({
         id: transaction.id,

@@ -1,52 +1,42 @@
-import { AppSidebar } from "@/components/components/app-sidebar"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/components/ui/breadcrumb"
-import { Separator } from "@/components/components/ui/separator"
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/components/ui/sidebar"
+import { Header } from "@/components/Header";
+import { SpendVSEarn } from "@/components/SpendVSEarnChart";
+import { Button } from "@/components/ui/button";
+import { auth } from "@/lib/auth";
 
-export default function Page() {
+export default async function Page() {
+
+  const session = await auth();
+  const user = session?.user;
+
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-          <div className="flex items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1" />
-            <Separator orientation="vertical" className="mr-2 h-4" />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Building Your Application
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
+    // This page contains analytics for my personal finances.
+    <>
+      <Header
+        title="Dashboard"
+        children={
+         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+            <div className="flex justify-between items-center">
+              <h1 className="text-2xl font-semibold">Welcome back, {user?.name}</h1>
+            </div>
+            <div className="w-full">
+              <section id="charts" className="scroll-mt-20">
+                <div className="grid gap-4">
+                  <div className="gap-6 md:flex md:flex-row-reverse md:items-start">
+                    <div className="grid flex-1 gap-12">
+                      <h2 className="sr-only">Examples</h2>
+                      <div id="examples" className="grid flex-1 scroll-mt-20 items-start gap-10 md:grid-cols-2 md:gap-6 lg:grid-cols-3 xl:gap-10">
+                        <div className="themes-wrapper group relative flex flex-col overflow-hidden rounded-xl border shadow transition-all duration-200 ease-in-out hover:z-30">
+                          <SpendVSEarn />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
           </div>
-        </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div className="aspect-video rounded-xl bg-muted/50" />
-            <div className="aspect-video rounded-xl bg-muted/50" />
-            <div className="aspect-video rounded-xl bg-muted/50" />
-          </div>
-          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
-        </div>
-      </SidebarInset>
-    </SidebarProvider>
+        }
+      />
+    </>
   )
 }

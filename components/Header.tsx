@@ -1,6 +1,6 @@
 import { Separator } from "@radix-ui/react-separator";
-import { SidebarInset, SidebarTrigger } from "./components/ui/sidebar";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "./components/ui/breadcrumb";
+import { SidebarInset, SidebarTrigger } from "./ui/sidebar";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "./ui/breadcrumb";
 
 
 interface HeaderProps {

@@ -7,7 +7,7 @@ import { User } from './user';
 import { NavItem } from './nav-item';
 import { auth, signIn } from '@/lib/auth';
 import { Button } from '@/components/ui/button';
-import { AppSidebar } from '@/components/components/app-sidebar';
+import { AppSidebar } from '@/components/app-sidebar';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,13 +15,13 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator
-} from '@/components/components/ui/breadcrumb';
-import { Separator } from '@/components/components/ui/separator';
+} from '@/components/ui/breadcrumb';
+import { Separator } from '@/components/ui/separator';
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger
-} from '@/components/components/ui/sidebar';
+} from '@/components/ui/sidebar';
 
 export const metadata = {
   title: 'Peter & Ana | Personal Finances',

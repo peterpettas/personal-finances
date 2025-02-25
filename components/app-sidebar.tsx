@@ -5,27 +5,33 @@ import {
   AudioWaveform,
   BookOpen,
   Bot,
+  CircleGauge,
   Command,
+  Feather,
   Frame,
   GalleryVerticalEnd,
+  HandCoins,
+  Landmark,
   Map,
   PieChart,
+  Receipt,
   Settings2,
   SquareTerminal,
+  Wallet,
 } from "lucide-react"
 
-import { NavMain } from "@/components/components/nav-main"
-import { NavProjects } from "@/components/components/nav-projects"
-import { NavUser } from "@/components/components/nav-user"
-import { TeamSwitcher } from "@/components/components/team-switcher"
+import { NavMain } from "@/components/nav-main"
+import { NavProjects } from "@/components/nav-projects"
+import { NavUser } from "@/components/nav-user"
+import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from "@/components/components/ui/sidebar"
-import { Logo } from "../icons"
+} from "@/components/ui/sidebar"
+import { Logo } from "./icons"
 import Link from "next/link"
 import { fetchUpApi } from "@/lib/api"
 import Account from "@/components/Account"
@@ -62,9 +68,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     },
     navMain: [
       {
+        title: 'Dashboard',
+        url: '/dashboard',
+        icon: CircleGauge
+      },
+      {
         title: 'Bills',
         url: '#',
-        icon: Bot,
+        icon: Receipt,
         items: [
           {
             title: 'Genesis',
@@ -82,53 +93,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       },
       {
         title: 'Income',
-        url: '#',
-        icon: BookOpen,
-        items: [
-          {
-            title: 'Introduction',
-            url: '#'
-          },
-          {
-            title: 'Get Started',
-            url: '#'
-          },
-          {
-            title: 'Tutorials',
-            url: '#'
-          },
-          {
-            title: 'Changelog',
-            url: '#'
-          }
-        ]
+        url: '/income',
+        icon: HandCoins,
       },
       {
         title: 'Budget',
-        url: '#',
-        icon: BookOpen,
-        items: [
-          {
-            title: 'Introduction',
-            url: '#'
-          },
-          {
-            title: 'Get Started',
-            url: '#'
-          },
-          {
-            title: 'Tutorials',
-            url: '#'
-          },
-          {
-            title: 'Changelog',
-            url: '#'
-          }
-        ]
+        url: '/budget',
+        icon: Wallet
       },
       {
         title: 'Settings',
-        url: 'settings',
+        url: '/settings',
         icon: Settings2
       }
     ],
@@ -151,10 +126,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     ]
   };
 
-  sample.navMain.push({
+  sample.navMain.splice(3, 0, {
     title: 'Accounts',
     url: '#',
-    icon: Settings2,
+    icon: Landmark,
     items: accounts.map((account) => ({
       title: account.attributes.displayName,
       url: `/transactions/${account.id}`,
@@ -172,15 +147,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <Link
           className="flex items-center gap-2 font-semibold text-emerald-500"
           href="/"
-        >
-          <Logo />
-          <span className="">P&A | PF</span>
+        >&nbsp;
+          {/* <Logo /> */}
+          <Feather />
         </Link>
         {/* <TeamSwitcher teams={data.teams} /> */}
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={sample.navMain} />
-        <NavProjects projects={sample.projects} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={sample.user} />
