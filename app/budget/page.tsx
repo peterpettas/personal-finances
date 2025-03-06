@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
 import React, { useEffect, useState } from 'react';
-import Transaction from '../../../components/Transaction';
-import { fetchUpApi } from '../../../lib/api';
+import Transaction from '../../components/Transaction';
+import { fetchUpApi } from '../../lib/api';
 import { columns, TransactionType, APITransactionType } from './columns';
 import {
   Table,
@@ -35,7 +35,7 @@ import {
   getSortedRowModel,
   useReactTable
 } from '@tanstack/react-table';
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -49,28 +49,17 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Header } from '@/components/Header';
-import { useParams } from 'next/navigation';
-
-type AccountType = {
-  id: string;
-  attributes: {
-    displayName: string;
-    balance: {
-      value: string;
-    };
-  };
-};
 
 const getStartAndEndOfMonth = (date: Date) => {
   const start = new Date(date.getFullYear(), date.getMonth(), 1);
   const end = new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59);
   return {
     start: start.toISOString(),
-    end: end.toISOString(),
+    end: end.toISOString()
   };
 };
 
-const TransactionsPage = () => {
+const Budget = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [transactions, setTransactions] = useState<TransactionType[]>([]);
   const [loading, setLoading] = useState(true);
@@ -85,8 +74,6 @@ const TransactionsPage = () => {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
-  const { accountId } = useParams();
-
   const setPaginationState = (updater: any) => {
     const newPagination =
       typeof updater === 'function'
@@ -97,7 +84,6 @@ const TransactionsPage = () => {
 
   const fetchTransactions = async (
     month: Date,
-    accountId: string | string[],
     pageAfter?: string | null,
     pageBefore?: string | null
   ) => {
@@ -105,7 +91,7 @@ const TransactionsPage = () => {
     setTransactions([]);
     const { start, end } = getStartAndEndOfMonth(month);
 
-    let url = `/api/transactions?accountId=${accountId}&start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`;
+    let url = `/api/transactions?start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`;
     if (pageAfter) {
       url += `&pageAfter=${pageAfter}`;
     }
@@ -141,11 +127,9 @@ const TransactionsPage = () => {
 
   useEffect(() => {
     setTransactions([]);
-    if (accountId) {
-      fetchTransactions(selectedMonth, accountId);
-    }
+	fetchTransactions(selectedMonth);
     setCurrentPage(1);
-  }, [selectedMonth, accountId]);
+  }, [selectedMonth]);
 
   const handlePreviousMonth = () => {
     setSelectedMonth(
@@ -165,7 +149,7 @@ const TransactionsPage = () => {
         'page[after]'
       );
       setTransactions([]);
-      fetchTransactions(selectedMonth, accountId, pageAfter, null);
+      fetchTransactions(selectedMonth, pageAfter, null);
       setCurrentPage((prevPage) => prevPage + 1);
     }
   };
@@ -176,7 +160,7 @@ const TransactionsPage = () => {
         'page[before]'
       );
       setTransactions([]);
-      fetchTransactions(selectedMonth, accountId, null, pageBefore);
+      fetchTransactions(selectedMonth, null, pageBefore);
       setCurrentPage((prevPage) => prevPage - 1);
     }
   };
@@ -208,7 +192,7 @@ const TransactionsPage = () => {
   return (
     <>
       <Header
-        title="Transactions"
+        title="Budget"
         children={
           <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
             <div className="flex justify-between items-center">
@@ -360,4 +344,4 @@ const TransactionsPage = () => {
   );
 };
 
-export default TransactionsPage;
+export default Budget;

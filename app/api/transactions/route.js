@@ -9,10 +9,10 @@ export async function GET(req) {
   const pageAfter = searchParams.get('pageAfter');
   const pageBefore = searchParams.get('pageBefore');
 
-  const accountCondition = accountId !== '' ? `accounts/${accountId}/transactions` : 'transactions';
+  const urlConsructor = accountId ? `accounts/${accountId}/transactions` : 'transactions';
   const startAndEnd = start && end ? `&filter[since]=${encodeURIComponent(start)}&filter[until]=${encodeURIComponent(end)}` : '';
   
-  let url = `${accountCondition}?page[size]=100${startAndEnd}`;
+  let url = `${urlConsructor}?page[size]=100${startAndEnd}`;
 
   try {
 
@@ -23,7 +23,6 @@ export async function GET(req) {
       url += `&page[before]=${encodeURIComponent(pageBefore)}`;
     }
 
-    console.log('url', url);
 	  const data = await fetchUpApi(url);
     const transactions = data.data;
 
@@ -43,7 +42,7 @@ export async function GET(req) {
     return NextResponse.json(
       // debug
       { error: error.message },
-      // { error: 'Failed to fetch transactions' },
+      { error: 'Failed to fetch transactions' },
       { status: 500 }
     );
   }
