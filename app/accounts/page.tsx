@@ -1,6 +1,9 @@
 import { fetchUpApi } from '../../lib/api';
 import Account from '../../components/Account';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 type Account = {
   id: string;
   attributes: {

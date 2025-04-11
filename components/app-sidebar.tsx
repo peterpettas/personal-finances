@@ -60,6 +60,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     setAccounts(data.accounts);
     
   };
+
   const sample = {
     user: {
       name: 'shadcn',

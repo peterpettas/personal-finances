@@ -6,7 +6,14 @@ export async function GET() {
     const data = await fetchUpApi('accounts');
     const accounts = data.data;
 
-    return NextResponse.json({ accounts });
+    return NextResponse.json(
+      { accounts },
+      {
+        headers: {
+          'Cache-Control': 'no-store, max-age=0',
+        },
+      }
+    );
   } catch (error) {
     return NextResponse.json(
       { error: 'Failed to fetch accounts' },
