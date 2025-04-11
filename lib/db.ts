@@ -27,11 +27,22 @@ const bills = pgTable('bills', {
   duedate: date('duedate'),
   paid: varchar('paid', { length: 50 }),
   payfromaccount: varchar('payfromaccount', { length: 50 }),
-  category: varchar('category', { length: 50 }),
-  subcategory: varchar('subcategory', { length: 50 }),
+  categoryId: varchar('categoryId', { length: 50 }),
+  subcategoryId: varchar('subcategoryId', { length: 50 }),
   notes: varchar('notes', { length: 255 }),
   createdat: date('createdat').defaultNow(),
   updatedat: date('updatedat').defaultNow()
+});
+
+const categories = pgTable('categories', {
+  id: serial('id').primaryKey(),
+  name: varchar('name', { length: 50 })
+});
+
+const subcategories = pgTable('subcategories', {
+  id: serial('id').primaryKey(),
+  name: varchar('name', { length: 50 }),
+  categoryid: varchar('categoryid', { length: 50 })
 });
 
 export type SelectBill = typeof bills.$inferSelect;
