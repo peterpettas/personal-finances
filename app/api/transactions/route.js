@@ -4,6 +4,7 @@ import { fetchUpApi } from '../../../lib/api';
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const accountId = searchParams.get('accountId');
+  const categoryId = searchParams.get('categoryId');
   const start = searchParams.get('start');
   const end = searchParams.get('end');
   const pageAfter = searchParams.get('pageAfter');
@@ -15,7 +16,6 @@ export async function GET(req) {
   let url = `${urlConsructor}?page[size]=100${startAndEnd}`;
 
   try {
-
     if (pageAfter) {
       url += `&page[after]=${encodeURIComponent(pageAfter)}`;
     }
@@ -23,16 +23,35 @@ export async function GET(req) {
       url += `&page[before]=${encodeURIComponent(pageBefore)}`;
     }
 
-	  const data = await fetchUpApi(url);
-    const transactions = data.data;
+    const data = await fetchUpApi(url);
+    let transactions = data.data;
 
     // Filter out unwanted transactions
     const filteredTransactions = transactions.filter(
       (transaction) =>
         transaction.attributes.description !== 'Round Up' &&
         !transaction.attributes.description.startsWith('Quick save transfer') &&
-		!transaction.attributes.description.startsWith('Transfer')
+        !transaction.attributes.description.startsWith('Transfer')
     );
+
+    // If categoryId is provided, filter transactions by category
+    if (categoryId) {
+      const categoryFilteredTransactions = filteredTransactions.filter(transaction => {
+        if (transaction.relationships?.category?.data?.id === categoryId) {
+          return true;
+        }
+        // Sometimes the category is in the attributes instead of relationships
+        if (transaction.attributes?.category?.id === categoryId) {
+          return true;
+        }
+        return false;
+      });
+      
+      return NextResponse.json({ 
+        transactions: categoryFilteredTransactions,
+        links: data.links
+      });
+    }
 
     return NextResponse.json({ 
       transactions: filteredTransactions,

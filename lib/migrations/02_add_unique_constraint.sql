@@ -1,0 +1,1 @@
+ALTER TABLE budgets ADD CONSTRAINT budgets_categoryid_month_key UNIQUE ("categoryId", month); 
