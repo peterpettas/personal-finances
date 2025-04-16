@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { fetchUpApi } from '../../../../lib/api';
+import { fetchUpApi } from '@/lib/api'
 
 export async function PATCH(req, { params }) {
   const { transactionId } = params;
