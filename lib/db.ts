@@ -2,7 +2,7 @@ import 'server-only';
 
 import { neon } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
-import { pgTable, serial, varchar, doublePrecision, date, timestamp } from 'drizzle-orm/pg-core';
+import { pgTable, serial, varchar, doublePrecision, date, timestamp, integer } from 'drizzle-orm/pg-core';
 import { eq, ilike, and, gte, lte } from 'drizzle-orm';
 import { sql } from 'drizzle-orm';
 
@@ -55,8 +55,21 @@ const budgets = pgTable('budgets', {
   updatedat: varchar('updatedat', { length: 50 }).default(sql`CURRENT_TIMESTAMP`)
 });
 
+// Define transactions table
+const transactions = pgTable('transactions', {
+  id: serial('id').primaryKey(),
+  accountId: varchar('accountId', { length: 50 }),
+  description: varchar('description', { length: 255 }),
+  message: varchar('message', { length: 255 }),
+  amount: doublePrecision('amount'),
+  createdAt: varchar('createdAt', { length: 50 }),
+  category: varchar('category', { length: 50 }),
+  // categoryId: varchar('categoryId', { length: 50 }),
+});
+
 export type SelectBill = typeof bills.$inferSelect;
 export type SelectBudget = typeof budgets.$inferSelect;
+export type SelectTransaction = typeof transactions.$inferSelect;
 
 export async function getBills(): Promise<SelectBill[]> {
   return db.select().from(bills).execute();
@@ -189,3 +202,14 @@ export async function executeMigration() {
     ALTER TABLE budgets ADD CONSTRAINT IF NOT EXISTS budgets_categoryid_month_key UNIQUE ("categoryId", month);
   `);
 }
+
+export async function createTransaction(transaction: Omit<SelectTransaction, 'id'>): Promise<SelectTransaction> {
+  const [created] = await db.insert(transactions).values(transaction).returning().execute();
+  return created;
+}
+
+export async function deleteTransaction(id: number) {
+  await db.delete(transactions).where(eq(transactions.id, id)).execute();
+}
+
+export { transactions };
