@@ -19,25 +19,25 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
 
-  // const session = await auth();
-  // const user = session?.user;
+  const session = await auth();
+  const user = session?.user;
 
-  // if (!user) {
-  //   return (
-  //     <html lang="en" className="h-full bg-gray-50">
-  //       <body>
-  //         <form
-  //           action={async () => {
-  //             'use server';
-  //             await signIn('github');
-  //           }}
-  //         >
-  //           <Button variant="outline">Sign In</Button>
-  //         </form>
-  //       </body>
-  //     </html>
-  //   );
-  // }
+  if (!user) {
+    return (
+      <html lang="en" className="h-full bg-gray-50">
+        <body>
+          <form
+            action={async () => {
+              'use server';
+              await signIn('github');
+            }}
+          >
+            <Button variant="outline">Sign In</Button>
+          </form>
+        </body>
+      </html>
+    );
+  }
 
   return (
     <html lang="en" className="h-full bg-gray-50">
