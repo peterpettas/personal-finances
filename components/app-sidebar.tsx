@@ -2,28 +2,20 @@
 
 import * as React from "react"
 import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
   CircleGauge,
-  Command,
   Feather,
   Frame,
-  GalleryVerticalEnd,
   HandCoins,
   Landmark,
   Map,
   PieChart,
   Receipt,
   Settings2,
-  SquareTerminal,
   Wallet,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
 import { NavUser } from "@/components/nav-user"
-import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
   SidebarContent,
@@ -31,10 +23,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import { Logo } from "./icons"
 import Link from "next/link"
-import { fetchUpApi } from "@/lib/api"
-import Account from "@/components/Account"
 
 type AccountType = {
   id: string;
@@ -58,14 +47,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     }
     const data = await response.json();
     setAccounts(data.accounts);
-    
   };
 
   const sample = {
     user: {
-      name: 'shadcn',
-      email: 'm@example.com',
-      avatar: '/avatars/shadcn.jpg'
+      name: 'Peter & Ana',
+
     },
     navMain: [
       {

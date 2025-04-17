@@ -1,12 +1,11 @@
 import { Header } from "@/components/Header";
 import { SpendVSEarn } from "@/components/SpendVSEarnChart";
 import { Button } from "@/components/ui/button";
-import { auth } from "@/lib/auth";
+import { getUser } from "@/lib/auth";
 
 export default async function Page() {
 
-  const session = await auth();
-  const user = session?.user;
+  const user = await getUser();
 
   return (
     // This page contains analytics for my personal finances.
@@ -16,7 +15,7 @@ export default async function Page() {
         children={
          <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
             <div className="flex justify-between items-center">
-              <h1 className="text-2xl font-semibold">Welcome back, {user?.name}</h1>
+              <h1 className="text-2xl font-semibold">Welcome back, {user?.displayName}</h1>
             </div>
             <div className="w-full">
               <section id="charts" className="scroll-mt-20">

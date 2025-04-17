@@ -1,10 +1,9 @@
 import { Button } from '@/components/ui/button';
-import { auth, signIn, signOut } from '@/lib/auth';
+import { getUser, signIn, signOut } from '@/lib/auth';
 import Image from 'next/image';
 
 export async function User() {
-  const session = await auth();
-  const user = session?.user;
+  const user = await getUser();
 
   if (!user) {
     return (

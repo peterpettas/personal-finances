@@ -23,6 +23,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.2.7",
     "@radix-ui/react-tooltip": "^1.1.8",
+    "@stackframe/stack": "^2.8.5",
     "@tanstack/react-table": "^8.17.3",
     "@types/node": "20.12.11",
     "@types/react": "18.3.2",
